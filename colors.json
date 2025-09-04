@@ -1,0 +1,371 @@
+[
+  {
+    "image": "art.jpg",
+    "color": [
+      146,
+      192,
+      186
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "c861ad329ea5130ab64fd0b7ef37885a.jpg",
+    "color": [
+      246,
+      246,
+      246
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "kanki.jpg",
+    "color": [
+      5,
+      5,
+      5
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "db245d678918a1e89af8f521485e9276.jpg",
+    "color": [
+      65,
+      93,
+      150
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "f9197318466d52843d45f7cbe48fa32d.jpg",
+    "color": [
+      79,
+      101,
+      132
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "5a16b96ed1fe949e8515cfe3f9c60435.jpg",
+    "color": [
+      17,
+      14,
+      17
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "48fec364e2e646684d7a2a8e8ce1406d.jpg",
+    "color": [
+      27,
+      35,
+      28
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "d50eb766bf727f7d40e5bde115dc1fd1.jpg",
+    "color": [
+      209,
+      197,
+      183
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "e099601c2f2707bba89f23ec3ecfc8c3.jpg",
+    "color": [
+      125,
+      36,
+      26
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "f4528702cdb79fe447bab236c856a1fa.jpg",
+    "color": [
+      109,
+      168,
+      76
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "hole.jpg",
+    "color": [
+      1,
+      3,
+      5
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "06bef1d6e3a69665a83a55e53bf50d76.jpg",
+    "color": [
+      3,
+      3,
+      3
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "kurapika.jpg",
+    "color": [
+      9,
+      9,
+      9
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "b4ddad53cf2ce68317e73542bb94563c.jpg",
+    "color": [
+      1,
+      1,
+      1
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "4c76d3a9fcf22249693c7dc24f8dd7c2.jpg",
+    "color": [
+      253,
+      253,
+      253
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "8ee6939df350415b78d1f848e4c6dd5f.jpg",
+    "color": [
+      222,
+      224,
+      227
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "50f12ee63474adca8814a272c57be397.jpg",
+    "color": [
+      44,
+      48,
+      28
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "95d7bad1f3cf1462da0d72f85617900e.jpg",
+    "color": [
+      202,
+      195,
+      200
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "2770aacdde6e36ee3b7ceef53058d930.jpg",
+    "color": [
+      3,
+      3,
+      3
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "22755f31d41d5eb9dd43f22018473a67.jpg",
+    "color": [
+      33,
+      45,
+      86
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "222562660cbc4e5a7407c02f8bbbdaaa.jpg",
+    "color": [
+      28,
+      29,
+      47
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "a34b6bcddb0ebb4a6119ed9683ee119f.jpg",
+    "color": [
+      20,
+      20,
+      21
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "c6fcec0fc7097cdf406180f49666f396.jpg",
+    "color": [
+      188,
+      183,
+      139
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "dbbc5dc32e788561b8023e245d4d2d33.jpg",
+    "color": [
+      24,
+      32,
+      55
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "e5518db598267dfb2f01c21ae3e39ef3.jpg",
+    "color": [
+      0,
+      2,
+      16
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "ed9448cad709b514fa3aa5f55e887ce5.jpg",
+    "color": [
+      254,
+      254,
+      253
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "ff19dc822b8b973106d7901441f54f61.jpg",
+    "color": [
+      93,
+      138,
+      158
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "7795a4b11d5ed3138889e60447d4bbb2.jpg",
+    "color": [
+      249,
+      245,
+      233
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "78a65201209b70077fd5e37c7a956b03-fotor-2025071520850.png",
+    "color": [
+      12,
+      8,
+      6
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "a63159445d34ea13a33aac451a551a35.jpg",
+    "color": [
+      2,
+      2,
+      2
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "AMI.jpg",
+    "color": [
+      252,
+      252,
+      252
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "kuroro.jpg",
+    "color": [
+      2,
+      2,
+      2
+    ],
+    "card_type": "card_small"
+  },
+  {
+    "image": "3e9dc33561255662aaa1741c7b2cd4b8.jpg",
+    "color": [
+      8,
+      79,
+      222
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "12f9906b91124c932168645f7005d9eb.jpg",
+    "color": [
+      9,
+      105,
+      198
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "a4345e54bb29b2f5592b9b621c8b5dc2.jpg",
+    "color": [
+      2,
+      2,
+      2
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "a00cadd34892ae6f23547916b6689d8d.jpg",
+    "color": [
+      208,
+      202,
+      193
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "4524fa4e598ab9cc3d4586563d8f5a57.jpg",
+    "color": [
+      254,
+      254,
+      254
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "827f1813c5d0d9a2b615c936f104d059.jpg",
+    "color": [
+      14,
+      20,
+      16
+    ],
+    "card_type": "card_medium"
+  },
+  {
+    "image": "293adf1eec73f8eb593ee5a0e9040d18.jpg",
+    "color": [
+      2,
+      71,
+      186
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "69ec1df284ced27362a2a4ca5ac27c99.jpg",
+    "color": [
+      239,
+      236,
+      219
+    ],
+    "card_type": "card_large"
+  },
+  {
+    "image": "Kingdom  Volume 59 - Sushiscan.png",
+    "color": [
+      3,
+      3,
+      3
+    ],
+    "card_type": "card_medium"
+  }
+]

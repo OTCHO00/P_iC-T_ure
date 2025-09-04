@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Uploader une image</title>
+    <style>
+        :root {
+            --card_width: 250px;
+            --row_increment: 10px;
+            --card_border_radius: 16px;
+            --card_small: 26;
+            --card_med: 33;
+            --card_large: 45;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: black;
+            font-family: sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgb(0, 0, 0);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: white;
+        }
+
+        .dropzone {
+            border: 2px dashed #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background-color: #fafafa;
+            cursor: pointer;
+            margin-bottom: 20px;
+            user-select: none;
+            color: black;
+        }
+
+        .dropzone.dragover {
+            border-color: #666;
+            background-color: #eee;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: var(--card_width);
+            grid-auto-rows: var(--row_increment);
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border-radius: var(--card_border_radius);
+            background-size: cover;
+            background-position: center;
+            margin: 10px auto;
+            width: var(--card_width);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .card_small {
+            grid-row-end: span var(--card_small);
+            height: calc(var(--card_small) * var(--row_increment));
+        }
+
+        .card_medium {
+            grid-row-end: span var(--card_med);
+            height: calc(var(--card_med) * var(--row_increment));
+        }
+
+        .card_large {
+            grid-row-end: span var(--card_large);
+            height: calc(var(--card_large) * var(--row_increment));
+        }
+
+        .card-select {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        select {
+            font-size: 1rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .submit-button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 25px;
+            background-color: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-upload {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: black;
+            user-select: none;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        .btn-upload:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn-upload" title="Retour à la galerie" onclick="window.location.href='index.html'"></div>
+
+    <div class="container">
+        <h2>Ajouter une image</h2>
+
+        <div class="dropzone" id="dropzone">
+            Glissez une image ici ou cliquez pour sélectionner
+            <input type="file" id="fileInput" accept="image/*" style="display:none" />
+        </div>
+
+        <div class="preview-container" id="previewContainer"></div>
+
+        <div class="card-select">
+            <label for="cardType" style="color: white;">Type de carte : </label>
+            <select id="cardType">
+                <option value="card_small">Petite</option>
+                <option value="card_medium" selected>Moyenne</option>
+                <option value="card_large">Grande</option>
+            </select>
+        </div>
+
+        <button class="submit-button" id="addButton">Ajouter</button>
+        <p id="status" style="text-align:center; color:lime;"></p>
+    </div>
+
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const cardTypeSelect = document.getElementById('cardType');
+        const addButton = document.getElementById('addButton');
+        const status = document.getElementById('status');
+
+        let selectedFile = null;
+        let currentCard = null;
+
+        dropzone.addEventListener('click', () => fileInput.click());
+        dropzone.addEventListener('dragover', e => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+        fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+        function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                alert("Veuillez choisir une image");
+                return;
+            }
+            selectedFile = file;
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                previewContainer.innerHTML = '';
+                currentCard = document.createElement('div');
+                currentCard.classList.add('card', cardTypeSelect.value);
+                currentCard.style.backgroundImage = `url('${e.target.result}')`;
+                previewContainer.appendChild(currentCard);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        cardTypeSelect.addEventListener('change', () => {
+            if (currentCard) {
+                currentCard.className = 'card ' + cardTypeSelect.value;
+            }
+        });
+
+        addButton.addEventListener('click', () => {
+            if (!selectedFile) {
+                alert("Sélectionnez une image avant d'ajouter.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('cardType', cardTypeSelect.value); // 🔥 Ajout du type de carte
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            }).then(res => {
+                if (res.ok) {
+                    status.textContent = "";
+                    setTimeout(() => window.location.href = 'index.html', 1000);
+                } else {
+                    status.textContent = "Erreur lors de l'envoi ❌";
+                }
+            }).catch(() => {
+                status.textContent = "Erreur de connexion ❌";
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Galerie façon Pinterest</title>
+    <style>
+        :root {
+            --card_border_radius: 16px;
+            --gap: 15px;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: black;
+            color: white;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Barre de filtres */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: #222;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            color: #aaa;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .color-filter {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-filter:hover {
+            transform: scale(1.1);
+            border-color: white;
+        }
+
+        /* Masonry layout */
+        .masonry {
+            column-count: 6;
+            column-gap: var(--gap);
+            padding: var(--gap);
+        }
+
+        @media (max-width: 1200px) {
+            .masonry {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .masonry {
+                column-count: 1;
+            }
+        }
+
+        .card {
+            width: 100%;
+            margin-bottom: var(--gap);
+            border-radius: var(--card_border_radius);
+            background-size: cover;
+            background-position: center;
+            display: inline-block;
+            break-inside: avoid;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .card.hidden {
+            display: none;
+        }
+
+        .card_small {
+            height: 260px;
+        }
+
+        .card_medium {
+            height: 330px;
+        }
+
+        .card_large {
+            height: 450px;
+        }
+
+        .btn-upload {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: black;
+            user-select: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .btn-upload:hover {
+            background-color: #eee;
+            transform: scale(1.1);
+        }
+
+        .stats {
+            text-align: center;
+            padding: 10px;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="filter-bar" id="filter-bar">
+        <h2 class="filter-label" style="color: white; font-size: 15px; cursor: pointer;" onclick="window.location.href='index.html'">Pi_cT-u_re</h2>
+    </div>
+
+    <!-- Masonry container -->
+    <div class="masonry" id="masonry"></div>
+
+    <div class="stats" id="stats"></div>
+
+    <!-- Bouton pour ajouter une carte -->
+    <div class="btn-upload" title="Ajouter une carte" onclick="window.location.href='upload.html'">+</div>
+
+    <script>
+        let allCards = [];
+        let filteredCards = [];
+        let colorGroups = [];
+        let activeFilter = null;
+
+        // Fonction pour calculer la distance entre deux couleurs
+        function colorDistance(color1, color2) {
+            const dr = color1[0] - color2[0];
+            const dg = color1[1] - color2[1];
+            const db = color1[2] - color2[2];
+            return Math.sqrt(dr*dr + dg*dg + db*db);
+        }
+
+        // Fonction pour grouper les couleurs similaires
+        function groupSimilarColors(data, threshold = 50) {
+            const groups = [];
+            const used = new Set();
+
+            data.forEach((item, index) => {
+                if (used.has(index)) return;
+
+                const group = {
+                    representative: item.color,
+                    items: [item],
+                    indices: [index]
+                };
+
+                // Chercher les couleurs similaires
+                data.forEach((otherItem, otherIndex) => {
+                    if (otherIndex <= index || used.has(otherIndex)) return;
+                    
+                    if (colorDistance(item.color, otherItem.color) < threshold) {
+                        group.items.push(otherItem);
+                        group.indices.push(otherIndex);
+                        used.add(otherIndex);
+                    }
+                });
+
+                used.add(index);
+                groups.push(group);
+            });
+
+            return groups;
+        }
+
+        // Fonction pour obtenir le nom de la couleur
+        function getColorName(rgb) {
+            const [r, g, b] = rgb;
+            
+            // Couleurs très sombres
+            if (r < 30 && g < 30 && b < 30) return 'Noir';
+            
+            // Couleurs très claires
+            if (r > 200 && g > 200 && b > 200) return 'Blanc';
+            
+            // Couleurs principales
+            if (r > g && r > b) {
+                if (r > 150) return 'Rouge';
+                return 'Rouge sombre';
+            }
+            if (g > r && g > b) {
+                if (g > 150) return 'Vert';
+                return 'Vert sombre';
+            }
+            if (b > r && b > g) {
+                if (b > 150) return 'Bleu';
+                return 'Bleu sombre';
+            }
+            
+            // Couleurs mixtes
+            if (Math.abs(r - g) < 30 && Math.abs(g - b) < 30) {
+                if (r > 150) return 'Gris clair';
+                if (r > 80) return 'Gris';
+                return 'Gris sombre';
+            }
+            
+            return 'Autre';
+        }
+
+        // Fonction pour mélanger un array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Fonction pour assigner des tailles aléatoirement si pas déjà défini
+        function getRandomCardType() {
+            const types = ['card_small', 'card_medium', 'card_large'];
+            return types[Math.floor(Math.random() * types.length)];
+        }
+
+        // Charger les images depuis colors.json
+        function loadImagesFromServer() {
+            fetch('colors.json')
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Données reçues:', data);
+                    
+                    // Transformer les données pour correspondre au format attendu
+                    allCards = data.map(item => ({
+                        image: item.image,
+                        type: item.card_type || getRandomCardType(),
+                        color: item.color,
+                        timestamp: Date.now() + Math.random()
+                    }));
+                    
+                    // Grouper les couleurs similaires
+                    colorGroups = groupSimilarColors(data);
+                    
+                    shuffleArray(allCards);
+                    filteredCards = [...allCards];
+                    
+                    createColorFilters();
+                    createMasonryGrid();
+                    updateStats();
+                })
+                .catch(err => {
+                    console.error('Erreur lors du chargement des images:', err);
+                });
+        }
+
+        // Créer les filtres de couleur
+        function createColorFilters() {
+            const filterBar = document.getElementById('filter-bar');
+            
+            colorGroups.forEach((group, index) => {
+                const colorFilter = document.createElement('div');
+                colorFilter.className = 'color-filter';
+                colorFilter.style.backgroundColor = `rgb(${group.representative.join(',')})`;
+                colorFilter.title = `${getColorName(group.representative)} (${group.items.length} image${group.items.length > 1 ? 's' : ''})`;
+                colorFilter.onclick = () => filterByColor(index);
+                
+                filterBar.appendChild(colorFilter);
+            });
+        }
+
+        // Filtrer par couleur
+        function filterByColor(groupIndex) {
+            const colorFilters = document.querySelectorAll('.color-filter');
+            
+            // Retirer la classe active de tous les filtres
+            colorFilters.forEach(f => f.classList.remove('active'));
+            
+            if (activeFilter === groupIndex) {
+                // Si on clique sur le même filtre, on reset
+                resetFilter();
+                return;
+            }
+            
+            // Ajouter la classe active au filtre sélectionné
+            colorFilters[groupIndex].classList.add('active');
+            activeFilter = groupIndex;
+            
+            // Filtrer les cartes
+            const group = colorGroups[groupIndex];
+            const imageNames = group.items.map(item => item.image);
+            
+            filteredCards = allCards.filter(card => imageNames.includes(card.image));
+            createMasonryGrid();
+            updateStats();
+        }
+
+        // Reset du filtre
+        function resetFilter() {
+            const colorFilters = document.querySelectorAll('.color-filter');
+            colorFilters.forEach(f => f.classList.remove('active'));
+            
+            activeFilter = null;
+            filteredCards = [...allCards];
+            createMasonryGrid();
+            updateStats();
+        }
+
+        function createMasonryGrid() {
+            const container = document.getElementById('masonry');
+            container.innerHTML = '';
+
+            filteredCards.forEach(cardData => {
+                const card = document.createElement('div');
+                card.className = `card ${cardData.type}`;
+                card.style.backgroundImage = `url('/images/${cardData.image}')`;
+                container.appendChild(card);
+            });
+        }
+
+
+        // Démarrer le chargement au chargement de la page
+        loadImagesFromServer();
+    </script>
+</body>
+
+</html>
